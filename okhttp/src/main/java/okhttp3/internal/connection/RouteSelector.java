@@ -176,24 +176,20 @@ public final class RouteSelector {
           + "; port is out of range");
     }
 
-    if (proxy.type() == Proxy.Type.SOCKS) {
-      inetSocketAddresses.add(InetSocketAddress.createUnresolved(socketHost, socketPort));
-    } else {
       eventListener.dnsStart(call, socketHost);
 
       // Try each address for best behavior in mixed IPv4/IPv6 environments.
       List<InetAddress> addresses = address.dns().lookup(socketHost);
       if (addresses.isEmpty()) {
-        throw new UnknownHostException(address.dns() + " returned no addresses for " + socketHost);
+          throw new UnknownHostException(address.dns() + " returned no addresses for " + socketHost);
       }
 
       eventListener.dnsEnd(call, socketHost, addresses);
 
       for (int i = 0, size = addresses.size(); i < size; i++) {
-        InetAddress inetAddress = addresses.get(i);
-        inetSocketAddresses.add(new InetSocketAddress(inetAddress, socketPort));
+          InetAddress inetAddress = addresses.get(i);
+          inetSocketAddresses.add(new InetSocketAddress(inetAddress, socketPort));
       }
-    }
   }
 
   /**
